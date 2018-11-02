@@ -3,7 +3,7 @@
 	<name>BH1750FVI</name>
 	<comment></comment>
 	<projects>
-		<project>AttinyCore</project>
+		<project>ATTinyCore</project>
 		<project>TinyWireM</project>
 	</projects>
 	<buildSpec>
