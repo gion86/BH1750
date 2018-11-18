@@ -3,8 +3,10 @@
 	<name>BH1750FVI</name>
 	<comment></comment>
 	<projects>
+		<project>ATMegaCore</project>
 		<project>ATTinyCore</project>
 		<project>TinyWireM</project>
+		<project>Wire</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

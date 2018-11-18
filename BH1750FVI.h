@@ -26,7 +26,9 @@
 #define BH1750FVI_h
 
 #include "Arduino.h"
-#include "TinyWireM.h"
+
+//Define release-independent I2C inclusions
+#include <Wire.h>
 
 // Device address when address pin LOW: default
 #define BH1750_I2CADDR_L                    0x23
@@ -81,12 +83,22 @@
  */
 class BH1750FVI {
 public:
+#ifdef TWDR
+  /**
+   * Constructor
+   *
+   * bus: I2C (TwoWire) communication bus instance (TwoWire, ror part with I2C hardware module)
+   */
+  // TwoWire instance, for part with I2C hardware module
+  BH1750FVI(TwoWire &bus);
+#else
   /**
    * Constructor
    *
    * bus: I2C (TWI) communication bus instance, only TinywireM is supported
    */
   BH1750FVI(USI_TWI &bus);
+#endif
 
   /**
    * The powerOn() method has to be called after begin() on the I2C bus
@@ -147,7 +159,11 @@ private:
   // High resolution coefficient = [1.0, 2.0]
   float hiResCoef;
 
-  USI_TWI &busI2C;
+#ifdef TWDR
+   TwoWire &busI2C;            //i2c bus instance
+#else
+   USIWire &busI2C;            //i2c bus instance
+#endif
 };
 
 #endif

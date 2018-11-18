@@ -24,12 +24,21 @@
 
 #include "BH1750FVI.h"
 
+#ifdef TWDR
+BH1750FVI::BH1750FVI(TwoWire &bus) : busI2C(bus) {
+  address = BH1750_I2CADDR_L;
+  currentMode = BH1750_CONTINUOUS_HIGH_RES_MODE;
+  mtreg = MTREG_DEF_VALUE;
+  hiResCoef = 1.0;
+}
+#else
 BH1750FVI::BH1750FVI(USI_TWI &bus) : busI2C(bus) {
   address = BH1750_I2CADDR_L;
   currentMode = BH1750_CONTINUOUS_HIGH_RES_MODE;
   mtreg = MTREG_DEF_VALUE;
   hiResCoef = 1.0;
 }
+#endif
 
 void BH1750FVI::powerOn(void) {
   writeToBus(BH1750_POWER_ON);      // Turn it on
@@ -136,9 +145,9 @@ float BH1750FVI::getLightIntensity(void) {
   // don't have be called!
   busI2C.requestFrom(address, 2);
 
-  intensityValue = busI2C.receive();
+  intensityValue = busI2C.read();
   intensityValue <<= 8;
-  intensityValue |= busI2C.receive();
+  intensityValue |= busI2C.read();
 
   float luxValue = intensityValue;
 
@@ -152,6 +161,6 @@ float BH1750FVI::getLightIntensity(void) {
 
 void BH1750FVI::writeToBus(uint8_t DataToSend) {
   busI2C.beginTransmission(address);
-  busI2C.send(DataToSend);
+  busI2C.write(DataToSend);
   busI2C.endTransmission();
 }
