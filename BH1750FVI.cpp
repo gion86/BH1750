@@ -40,6 +40,11 @@ BH1750FVI::BH1750FVI(USI_TWI &bus) : busI2C(bus) {
 }
 #endif
 
+byte BH1750FVI::checkCon() {
+  busI2C.beginTransmission(address);
+  return busI2C.endTransmission();
+}
+
 void BH1750FVI::powerOn(void) {
   writeToBus(BH1750_POWER_ON);      // Turn it on
   setMode(currentMode);

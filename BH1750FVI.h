@@ -101,6 +101,12 @@ public:
 #endif
 
   /**
+   * Verifies the I2C connection by calling beginTransmission() and endTransmission().
+   * Returns the I2C status (zero if successful).
+   */
+  byte checkCon(void);
+
+  /**
    * The powerOn() method has to be called after begin() on the I2C bus
    */
   void powerOn(void);
